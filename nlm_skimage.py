@@ -31,3 +31,11 @@ print("PSNR of cleaned image = ", NLM_skimg_cleaned_psnr)
 denoise_img_as_8byte = img_as_ubyte(NLM_skimg_denoise_img)
 
 plt.imsave("images/MRI_images/NLM_skimage_denoised.jpg", denoise_img_as_8byte, cmap='gray')
+
+from skimage.metrics import structural_similarity as ssim
+
+noise_ssim, _ = ssim(ref_img, noisy_img, full=True, win_size=3, data_range=1.0)
+cleaned_ssim, _ = ssim(ref_img, NLM_skimg_denoise_img, full=True, win_size=3, data_range=1.0)
+
+print("SSIM of input noisy image = ", noise_ssim)
+print("SSIM of cleaned image = ", cleaned_ssim)

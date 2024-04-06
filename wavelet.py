@@ -25,3 +25,11 @@ print("PSNR of input noisy image = ", noise_psnr)
 print("PSNR of cleaned image = ", Wavelet_cleaned_psnr)
 
 plt.imsave("images/MRI_images/wavelet_smoothed.jpg", wavelet_smoothed, cmap='gray')
+
+from skimage.metrics import structural_similarity as ssim
+
+noise_ssim, _ = ssim(ref_img, noisy_img, full=True, win_size=3, data_range=1.0)
+cleaned_ssim, _ = ssim(ref_img, wavelet_smoothed, full=True, win_size=3, data_range=1.0)
+
+print("SSIM of input noisy image = ", noise_ssim)
+print("SSIM of cleaned image = ", cleaned_ssim)

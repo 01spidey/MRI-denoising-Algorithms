@@ -13,8 +13,8 @@ noisy_img = transform.resize(noisy_img, desired_size, mode='reflect', anti_alias
 ref_img = transform.resize(ref_img, desired_size, mode='reflect', anti_aliasing=True)
 
 
-# BM3D_denoised_image = bm3d.bm3d(noisy_img, sigma_psd=0.2, stage_arg=bm3d.BM3DStages.ALL_STAGES)
-BM3D_denoised_image = bm3d.bm3d(noisy_img, sigma_psd=0.2, stage_arg=bm3d.BM3DStages.HARD_THRESHOLDING)
+BM3D_denoised_image = bm3d.bm3d(noisy_img, sigma_psd=0.2, stage_arg=bm3d.BM3DStages.ALL_STAGES)
+# BM3D_denoised_image = bm3d.bm3d(noisy_img, sigma_psd=0.2, stage_arg=bm3d.BM3DStages.HARD_THRESHOLDING)
 
 noise_psnr = peak_signal_noise_ratio(ref_img, noisy_img)
 BM3D_cleaned_psnr = peak_signal_noise_ratio(ref_img, BM3D_denoised_image)
@@ -23,3 +23,11 @@ print("PSNR of input noisy image = ", noise_psnr)
 print("PSNR of cleaned image = ", BM3D_cleaned_psnr)
 
 plt.imsave("images/MRI_images/BM3D_denoised.jpg", BM3D_denoised_image, cmap='gray')
+
+from skimage.metrics import structural_similarity as ssim
+
+noise_ssim, _ = ssim(ref_img, noisy_img, full=True, win_size=3, data_range=1.0)
+cleaned_ssim, _ = ssim(ref_img, BM3D_denoised_image, full=True, win_size=3, data_range=1.0)
+
+print("SSIM of input noisy image = ", noise_ssim)
+print("SSIM of cleaned image = ", cleaned_ssim)

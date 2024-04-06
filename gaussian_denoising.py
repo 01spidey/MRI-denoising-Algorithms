@@ -1,6 +1,6 @@
 #Gaussian
 from skimage import img_as_float, io, transform
-from skimage.metrics import peak_signal_noise_ratio
+from skimage.metrics import peak_signal_noise_ratio, structural_similarity as ssim
 from matplotlib import pyplot as plt
 from scipy import ndimage as nd
 
@@ -23,3 +23,11 @@ gaussian_cleaned_psnr = peak_signal_noise_ratio(ref_img, gaussian_img)
 # print the PSNR
 print("PSNR of input noisy image = ", noise_psnr)
 print("PSNR of cleaned image = ", gaussian_cleaned_psnr)
+
+from skimage.metrics import structural_similarity as ssim
+
+noise_ssim, _ = ssim(ref_img, noisy_img, full=True, win_size=3, data_range=1.0)
+gaussian_ssim, _ = ssim(ref_img, gaussian_img, full=True, win_size=3, data_range=1.0)
+
+print("SSIM of input noisy image = ", noise_ssim)
+print("SSIM of cleaned image = ", gaussian_ssim)

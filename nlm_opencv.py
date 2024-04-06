@@ -36,3 +36,11 @@ NLM_CV2_cleaned_psnr = peak_signal_noise_ratio(ref_img, NLM_CV2_denoise_img_floa
 
 print("PSNR of input noisy image = ", noise_psnr)
 print("PSNR of cleaned image = ", NLM_CV2_cleaned_psnr)
+
+from skimage.metrics import structural_similarity as ssim
+
+noise_ssim, _ = ssim(ref_img, noisy_img, full=True, win_size=3, data_range=1.0)
+cleaned_ssim, _ = ssim(ref_img, NLM_CV2_denoise_img_float, full=True, win_size=3, data_range=1.0)
+
+print("SSIM of input noisy image = ", noise_ssim)
+print("SSIM of cleaned image = ", cleaned_ssim)
